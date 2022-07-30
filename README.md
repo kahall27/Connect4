@@ -1,6 +1,6 @@
 <h1>Connect Four</h1>
 <h2>About the Project:</h2>
-This project was written entirely in Python. It's a simple script that I wrote to practice my earliest programming skills. It was good practice as I started to learn to think like a programmer, and it was a fun project to work on!
+This project was written entirely in Python. It's a simple script that I wrote in early 2022 to practice my earliest Python skills. I revisited this program in July 2022 with a fresh set of eyes, and improved much of the functionality of the game. It was good practice as I started to learn to think like a programmer, and it was a fun project to continue to work on!
 <br />
 <h2> How to Play:</h2>
 1. Player 1 always goes first. <br />
