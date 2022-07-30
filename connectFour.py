@@ -49,25 +49,56 @@ def place_token(player, column_choice):
     for i in range(len(grid)):
         if grid[-1 - i][column_index] == "X":
             grid[-1 - i][column_index] = token_value
-            break
+            return [-1 - i, column_index]
 
 
-def check_for_winner():
-    # Check horizontally
-    for row in grid:
-        if row.count("1") >= 4 or row.count("2") >= 4:
-            return True
+def check_for_winner_row(grid, player, placed_location):
+    
+    if player == "Player 1":
+        token_value = "1"
+    else:
+        token_value = "2"
 
-    # Check vertically
-    vertical_values = [[] for i in range(7)]
-    for row in grid:
-        for i in range(len(row)):
-            vertical_values[i].append(row[i])
+    row_placement = placed_location[0]
+    column_placement = placed_location[1]
+    if column_placement >= 3:
+        start = 3
+        end = 7
+        while end > row_placement:
+            if grid[row_placement][start:end].count(token_value) == 4:
+                return True
+            start -=1
+            end -=1 
+    else:
+        start = 0
+        end = 4
+        while start <= row_placement:
+            if grid[row_placement][start:end].count(token_value) == 4:
+                return True
+            start +=1
+            end +=1 
+    return False
+            
+def check_for_winner_col(grid, player, placed_location):
+    
+    if player == "Player 1":
+        token_value = "1"
+    else:
+        token_value = "2"
 
-    for column in vertical_values:
-        if column.count("1") >= 4 or column.count("2") >= 4:
-            return True
+    row_placement = 6 + placed_location[0]
+    column_placement = placed_location[1]
 
+    if row_placement > 2:
+        return False
+    else:
+        for i in range(0 + row_placement, 4 + row_placement):
+            if grid[i][column_placement] != token_value:
+                return False
+        return True
+        
+
+def check_for_winner_diagonal(grid):
     # Check negative slope diagonally.
     # range(3) because i refers to rows, and after you check 3 rows,
     # you don't need to keep checking since there aren't four more rows.
@@ -90,6 +121,11 @@ def check_for_winner():
 
     return False
 
+def check_for_winner(grid, player, placed_location):
+    row = check_for_winner_row(grid, player, placed_location)
+    col = check_for_winner_col(grid, player, placed_location)
+    diagonal = check_for_winner_diagonal(grid)
+    return row or col or diagonal
 
 def switch_player(player):
     if player == "Player 1":
@@ -117,11 +153,11 @@ while not game_over:
 
     column_choice = get_column(current_player)
 
-    place_token(current_player, column_choice)
+    placed_location = place_token(current_player, column_choice)
     tokens_placed += 1
 
-    game_over = check_for_winner()
-    
+    game_over = check_for_winner(grid, current_player, placed_location)
+    print(game_over)
     if game_over:
         draw_grid(grid)
         print("Congrats {}! You win!".format(current_player))
@@ -143,7 +179,6 @@ while not game_over:
                     ["X", "X", "X", "X", "X", "X", "X"],
                     ["X", "X", "X", "X", "X", "X", "X"],
                     ["X", "X", "X", "X", "X", "X", "X"]]
-            draw_grid(grid)
             current_player = "Player 2"
             game_over = False
         else:
