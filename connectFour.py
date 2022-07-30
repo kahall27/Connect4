@@ -23,6 +23,7 @@ grid = [["X", "X", "X", "X", "X", "X", "X"],
         ["X", "X", "X", "X", "X", "X", "X"],
         ["X", "X", "X", "X", "X", "X", "X"]]
 
+number_of_spaces = 42
 
 def draw_grid(list_of_rows):
     print(" ".join(legend))
@@ -108,6 +109,7 @@ def welcome_to_game():
 # game loop
 current_player = "Player 1"
 game_over = welcome_to_game()
+tokens_placed = 0
 
 while not game_over:
 
@@ -116,12 +118,20 @@ while not game_over:
     column_choice = get_column(current_player)
 
     place_token(current_player, column_choice)
+    tokens_placed += 1
 
     game_over = check_for_winner()
-
+    
     if game_over:
         draw_grid(grid)
         print("Congrats {}! You win!".format(current_player))
+
+    if tokens_placed == number_of_spaces: 
+        draw_grid(grid)
+        print("It's a tie! The game board has been filled with no winner!")
+        game_over = True
+
+    if game_over:
         print("Would you like to play again?")
         play_again = input("Press Y if yes, or N if no.").upper()
         while play_again != "Y" and play_again != "N":
