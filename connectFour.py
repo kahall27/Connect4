@@ -140,7 +140,6 @@ def switch_player(player):
     else:
         return "Player 1"
 
-
 def welcome_to_game():
     print("Hello! Welcome to Connect Four! Player 1 goes first!")
     space_bar_pressed = input("Press enter when you are ready to begin!")
