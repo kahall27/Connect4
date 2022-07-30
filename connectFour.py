@@ -13,7 +13,6 @@
 # row4 = ["X", "X", "X", "X", "X", "X", "X"]
 # row5 = ["X", "X", "X", "X", "X", "X", "X"]
 # row6 = ["X", "X", "X", "X", "X", "X", "X"]
-from typing import Any
 
 legend = ["A", "B", "C", "D", "E", "F", "G"]
 
@@ -31,8 +30,8 @@ def draw_grid(list_of_rows):
         print(" ".join(row))
 
 
-def get_column():
-    column_of_choice = input("Which column would you like to place your token in? ")
+def get_column(current_player):
+    column_of_choice = input(current_player + ", Which column would you like to place your token in? ")
     while column_of_choice.upper() not in legend:
         print("I'm sorry, that is not a valid choice. Please try again.")
         column_of_choice = input("Which column would you like to place your token in? ")
@@ -114,7 +113,7 @@ while not game_over:
 
     draw_grid(grid)
 
-    column_choice = get_column()
+    column_choice = get_column(current_player)
 
     place_token(current_player, column_choice)
 
