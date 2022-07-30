@@ -30,12 +30,19 @@ def draw_grid(list_of_rows):
     for row in list_of_rows:
         print(" ".join(row))
 
-
 def get_column(current_player):
     column_of_choice = input(current_player + ", Which column would you like to place your token in? ")
     while column_of_choice.upper() not in legend:
-        print("I'm sorry, that is not a valid choice. Please try again.")
-        column_of_choice = input("Which column would you like to place your token in? ")
+        print("I'm sorry, that is not a valid column. Please try again.")
+        column_of_choice = input(current_player + ", Which column would you like to place your token in? ")
+
+    # prevent placing a token in a full column
+    while grid[0][legend.index(column_of_choice.upper())] != "X":
+        column_of_choice = input("I'm sorry, that column is full. Please choose a new column: ")
+        while column_of_choice.upper() not in legend:
+            print("I'm sorry, that is not a valid column. Please try again.")
+            column_of_choice = input(current_player + ", Which column would you like to place your token in? ")
+
     return column_of_choice.upper()
 
 
@@ -154,15 +161,13 @@ while not game_over:
     column_choice = get_column(current_player)
 
     placed_location = place_token(current_player, column_choice)
-    tokens_placed += 1
 
     game_over = check_for_winner(grid, current_player, placed_location)
-    print(game_over)
     if game_over:
         draw_grid(grid)
         print("Congrats {}! You win!".format(current_player))
 
-    if tokens_placed == number_of_spaces: 
+    if grid[0].count("X") == 0: 
         draw_grid(grid)
         print("It's a tie! The game board has been filled with no winner!")
         game_over = True
